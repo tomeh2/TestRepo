@@ -1,0 +1,59 @@
+THERE IS TEST CODE IN CHANNEL, VOICE, OPERATOR, OSCILLATOR AND WAVE GENERATOR
+
+Parser for the algorithm creator
+
+b -> branch
+c -> cascade
+f -> feedback
+p -> parallel
+e -> command (b, c, f, p)
+
+Form of the expression
+e(a1, a2, ..., an)
+a1 - an are arguments for the command. It can be a number representing an operator or another command.
+Using commands as arguments constructs more complex structures
+
+ex 1.
+c(1, p(2, 3, 4))
+This command will create an algorithm that looks like this:
+
+	2	3	4
+	\	|	/
+		|
+		1
+		
+How to process the commands?
+1. Recursion
+Command processing is done from right to left. When a command is executed a built block is returned.
+So an input of "p(2, 3, 4)" will return a parallel structure containing operators 2, 3 and 4
+
+How to parse?
+
+
+About commands:
+b(a1, a2, a3) -> Branch. Connects the operators in a branch structure. Takes 3 arguments as the input.
+c(a1, a2, ..., an) -> Cascade. Takes as many arguments as possible
+f(a1) -> Adds a feedback to the given operator argument. Takes 1 argument. 
+p(a1, a2, ..., an) -> Parallel connection between the operators. Takes as many arguments as possible
+
+OPTIMIZATIONS:
+- Pre calculate waveforms
+- Log transformation of signals to reduce multiplication cost (probably not needed)
+- Time (Phase) is calculated in the operator, rather then individually per oscillator (supposedly introduces bugs)
+
+KEY RATE SCALING:
+	   { +- tan(scaleFactor) * k | k < kRef 
+f(k) = {
+	   { +- tan(scaleFactor) * k | k > kRef
+	   
+Calculated using a multi-part function
+Split into left part and right part
+Parts are split according to the reference key (left part if k < kref | right part if k > kref)
+If the scaling factor is as high as possible (45 deg) EG state duration will be modified by 20 for keys 1 and 88
+If the scaling factor is 0 every note will play for an equal amount of time
+
+OPTIMIZATION TESTS:
+1st Small Optimization --------------------------
+Before: 14.409 sec
+After: 14.150 sec
+Improvement: ~0.25 sec | 1.83%

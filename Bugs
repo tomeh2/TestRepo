@@ -1,0 +1,12 @@
+- There is this one ridiculously difficult bug to debug that causes sound to become... glitchy. Mostly noticable
+if the same note is played frequently. Who the hell knows at this point. -FIXED (but this new method is also not really that perfect)
+- Key scaling is a bit fishy
+- Only free voices get updated when their properties are changed through the channel -FIXED?
+
+- Recent observations regarding the distortion problem point to phase related issues. It would appear that
+even though the frequencies of the waves are different phase differences can still introduce distortion. Tests with the
+"Master Oscillator" (basically all oscillators are ran off a single timer, and each one modifies it for its own needs
+rather then each oscillator having its own timer) seem to show improvement in audio quality and huge reduction in 
+distortion
+
+- MAKE COMMENTS AND DOCUMENTATION
